@@ -9,6 +9,11 @@
         <h1>{{$post->title}}</h1>
 
         <div class="mt-2 mb-2"> <strong>Slug:</strong> {{$post->slug}} </div>
+        
+        @if($post->category)
+            <div class="mt-2 mb-2">Categoria: {{ $post->category->name }}</div>
+        @endif
+
 
         <p>{{$post->content}}</p>
 

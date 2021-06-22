@@ -90,7 +90,8 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         $data = [
-            'post' => $post
+            'post' => $post,
+            'post_category' => $post->category
         ];
 
         return view('admin.posts.show', $data);
