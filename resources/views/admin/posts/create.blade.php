@@ -40,6 +40,21 @@
                 </select>
             </div>
 
+            <div class="form-group">
+                <h6>Tags</h6>
+
+                @foreach ($tags as $tag)
+                    <div class="form-check">
+                        <input class="form-check-input" name="tags[]" type="checkbox" value="{{$tag->id}}" id="tag-{{$tag->id}}" {{in_array($tag->id, old('tags', [])) ? 'checked' : ''}}>
+                        <label class="form-check-label" for="tag-{{$tag->id}}">
+                            {{$tag->name}}
+                        </label>
+                    </div>
+                @endforeach
+ 
+            </div>
+
+
             <input type="submit" class="btn btn-success" value="Salva post">
         </form>
 
