@@ -11,7 +11,23 @@
 
 @section('content')
     <div class="container">
-        <h1>Lista post tramite VueJs</h1>
+        <div id="root">
+            <h1>@{{title}}</h1>
+
+            <div class="row">
+                <div v-for="post in posts" class="col-3">
+    
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">@{{post.title}}</h5>
+                            <p class="card-text">@{{post.content}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+
 
 
     </div>
