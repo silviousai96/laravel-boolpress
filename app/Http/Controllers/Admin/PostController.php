@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewPostAdminNotification;
 use App\Post;
 use App\Category;
 use App\Tag;
-use Illuminate\Support\Str;
+
 
 class PostController extends Controller
 {
@@ -109,6 +112,8 @@ class PostController extends Controller
             }
         }
         
+        //invio email all'amministratore del sito
+        Mail::to('silvio@email.it')->send(new NewPostAdminNotification());
 
         return redirect()->route('admin.posts.show', ['post' => $new_post->id]);
     }
