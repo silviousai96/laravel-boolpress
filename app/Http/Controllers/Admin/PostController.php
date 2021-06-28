@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Post;
 use App\Category;
 use App\Tag;
@@ -84,6 +85,16 @@ class PostController extends Controller
         //quando finalmente ho trovato uno slug libero, popoliamo i data da salvare 
         $new_post_data['slug'] = $new_slug;
 
+        //se c'è un immagine caricata dall'utente, la salvo in storage 
+        //e aggiungo il patch relativo a cover in new post data
+        if(isset($new_post_data['cover-image'])) {
+            $new_img_path = Storage::put('posts-cover', $new_post_data['cover-image']);
+
+            if($new_img_path) {
+                $new_post_data['cover'] = $new_img_path;
+            }
+        }
+
         $new_post = new Post();
         $new_post->fill($new_post_data);
         $new_post->save();
@@ -91,6 +102,10 @@ class PostController extends Controller
         //tags
         if(isset($new_post_data['tags']) && is_array($new_post_data['tags'])) {
             $new_post->tags()->sync($new_post_data['tags']);
+
+            if($new_img_path) {
+                $new_post_data['cover'] = $new_img_path;
+            }
         }
         
 
