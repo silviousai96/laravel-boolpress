@@ -60,7 +60,8 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'nullable|exists:tags,id'
+            'tags' => 'nullable|exists:tags,id',
+            'cover-image' => 'nullable|image|max:10000'
         ]);
         
         $new_post_data= $request->all();
@@ -166,8 +167,8 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'content' => 'required|max:65000',
             'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'nullable|exists:tags,id'
-
+            'tags' => 'nullable|exists:tags,id',
+            'cover-image' => 'nullable|image|max:10000'
         ]);
 
         $modified_post_data = $request->all();
@@ -200,7 +201,14 @@ class PostController extends Controller
             $modified_post_data['slug'] = $new_slug;
         }
 
+        if(isset($modified_post_data['cover-image'])) {
+            $image_path = Storage::put('posts-cover', $modified_post_data['cover-image']);
 
+            if($new_img_path) {
+                $modified_post_data['cover'] = $image_path;
+            }
+        }
+        
         $post->update($modified_post_data);
         
         //tags
